@@ -8,10 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import com.studentcrud.dao.StudentInterface;
 import com.studentcrud.dao.StudentValidation;
 import com.studentcrud.util.Connectionutil;
 
-public class StudentDb {
+public class StudentDb implements StudentInterface{
 	
 	public static void show() throws SQLException {
 		// TODO Auto-generated method stub
@@ -149,7 +150,7 @@ public class StudentDb {
 		int validateRollNo = StudentValidation.validateRollNo(rollNo);
 		delete(validateRollNo);
 	}
-	public static void addStudent() throws SQLException {
+	public void addStudent() throws SQLException {
 		
 		String a="Sachinnathan";
 		String b="Suji";
@@ -199,7 +200,7 @@ public class StudentDb {
 	public static void showStudentDetails() throws SQLException {
 		show();
 	}
-	public static boolean loginCheck(String username,String password) throws SQLException {
+	public boolean loginCheck(String username,String password) throws SQLException {
 		Connection con = Connectionutil.getConnections();
 		String query="select username,password from admin_details where username=? && password=?";
 		PreparedStatement statement = con.prepareStatement(query);

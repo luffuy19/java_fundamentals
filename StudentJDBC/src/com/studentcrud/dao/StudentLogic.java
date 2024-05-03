@@ -18,7 +18,8 @@ public class StudentLogic {
 		System.out.print("Enter Password : ");
 		String password = sc.next();
 		String validatepassword = StudentValidation.validatepassword(password);
-		boolean loginCheck = StudentDb.loginCheck(validateName, validatepassword);
+		StudentDb db = new StudentDb();
+		boolean loginCheck = db.loginCheck(validateName, validatepassword);
 		int n = 1;
 		int num = 0;
 		
@@ -90,7 +91,7 @@ public class StudentLogic {
 					StudentDb.deleteStudent(deleteRollNo);
 					break;
 				case 9:
-					StudentDb.addStudent();
+					db.addStudent();
 					break;
 				case 10:
 					StudentDb.showStudentDetails();
