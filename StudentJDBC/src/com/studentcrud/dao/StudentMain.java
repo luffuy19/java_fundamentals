@@ -1,4 +1,4 @@
-package com.chainsys.student;
+package com.studentcrud.dao;
 
 import java.sql.SQLException;
 

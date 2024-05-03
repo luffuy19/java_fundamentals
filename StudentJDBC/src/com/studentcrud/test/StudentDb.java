@@ -1,28 +1,22 @@
-package com.chainsys.student;
+package com.studentcrud.test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-import java.util.jar.Attributes.Name;
+
+import com.studentcrud.dao.StudentValidation;
+import com.studentcrud.util.Connectionutil;
 
 public class StudentDb {
 	
-	public static Connection getConnections() throws SQLException {
-		String url = "jdbc:mysql://localhost:3306/student_management";
-		String userName = "root";
-		String password = "mani1952001";
-		Connection con = DriverManager.getConnection(url, userName, password);
-		return con;
-	} 
 	public static void show() throws SQLException {
 		// TODO Auto-generated method stub
 		String query = "select * from student";
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(query);
 		ResultSetMetaData rsmd = rs.getMetaData();
@@ -47,7 +41,7 @@ public class StudentDb {
 
 	}
 	public static void delete(int id) throws SQLException {
-		Connection connection = getConnections();
+		Connection connection = Connectionutil.getConnections();
 		String query = "delete from student where rollNo=?";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, id);
@@ -60,7 +54,7 @@ public class StudentDb {
 	}
 	public static void insertValues(int rollNo, String studentName, int atttendence, int studentRank, int total,String standard,
 			String studentClass, String mentorName) throws SQLException {
-		Connection connection = getConnections();
+		Connection connection = Connectionutil.getConnections();
 		String query = "insert into Student values(?,?,?,?,?,?,?,?)";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, rollNo);
@@ -77,7 +71,7 @@ public class StudentDb {
 	public static void updateName(String rollNo,String name) throws SQLException {
 		int validateNumber = StudentValidation.validateRollNo(rollNo);
 		String validateName = StudentValidation.validateName(name);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set studentName=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1, validateName);
@@ -88,7 +82,7 @@ public class StudentDb {
 	public static void updateAttendence(String rollNo,String attendence) throws SQLException {
 		int validateNumber = StudentValidation.validateRollNo(rollNo);
 		int validateAttendence = StudentValidation.validateNumber(attendence);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set attendence=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setInt(1, validateAttendence);
@@ -99,7 +93,7 @@ public class StudentDb {
 	public static void updateStudentRank(String rollNo,String rank) throws SQLException {
 		int validateRank = StudentValidation.validateNumber(rank);
 		int validateRollNo = StudentValidation.validateRollNo(rollNo);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set studentRank=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setInt(1,validateRank);
@@ -110,7 +104,7 @@ public class StudentDb {
 	public static void updateStudentClass(String rollNo,String studentClass) throws SQLException {
 		String validateclass = StudentValidation.validateCharacter(studentClass);
 		int validateRollNo = StudentValidation.validateRollNo(rollNo);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set studentClass=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1, validateclass);
@@ -121,7 +115,7 @@ public class StudentDb {
 	public static void updateStudentMentor(String mentorName,String name) throws SQLException {
 		int validateRollNo = StudentValidation.validateRollNo(mentorName);
 		String validateName = StudentValidation.validateName(name);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set mentorName=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1, validateName);
@@ -132,7 +126,7 @@ public class StudentDb {
 	public static void updateStudentTotal(String rollNo,String total) throws SQLException {
 		int validateRollNo = StudentValidation.validateRollNo(rollNo);
 		int validateTotal = StudentValidation.validateNumber(total);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set total=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setInt(1, validateTotal);
@@ -143,7 +137,7 @@ public class StudentDb {
 	public static void updateStandard(String rollNo,String standard) throws SQLException {
 		String validateStandard = StudentValidation.validateStandard(standard);
 		int validateRollNo = StudentValidation.validateRollNo(rollNo);
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="update student set standard=? where rollNo=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1, validateStandard);
@@ -206,7 +200,7 @@ public class StudentDb {
 		show();
 	}
 	public static boolean loginCheck(String username,String password) throws SQLException {
-		Connection con = getConnections();
+		Connection con = Connectionutil.getConnections();
 		String query="select username,password from admin_details where username=? && password=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1,username);

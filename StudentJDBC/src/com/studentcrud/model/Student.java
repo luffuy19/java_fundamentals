@@ -1,4 +1,4 @@
-package com.chainsys.student;
+package com.studentcrud.model;
 
 public class Student {
 	int rollNo;
