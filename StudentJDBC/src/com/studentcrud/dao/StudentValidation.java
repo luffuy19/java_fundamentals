@@ -54,7 +54,7 @@ public class StudentValidation {
 		if(password.matches("^[A-Z][a-z]+[0-9]+[*#$%&!]$")) {
 			return password;
 		}
-		System.out.println(redColor+"Enter the Password with alteast one Caps and ends with Number"+resetColor);
+		System.out.println(redColor+"Enter the Password Starting with caps also contains lowercase and Number Ends with Special Character"+resetColor);
 		password=sc.next();
 		return validatepassword(password);
 	}
