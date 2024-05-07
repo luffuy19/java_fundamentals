@@ -15,7 +15,7 @@ import com.studentcrud.util.Connectionutil;
 public class StudentDb implements StudentInterface{
 	
 	public static void show(String section) throws SQLException {
-		System.out.println(section);
+		
 		String query = "select rollNo,studentName,attendence,studentRank,total,standard,studentClass,mentorName from student where studentClass=?";
 		Connection con = Connectionutil.getConnections();
 		PreparedStatement statement = con.prepareStatement(query);
@@ -56,9 +56,9 @@ public class StudentDb implements StudentInterface{
 		}
 	}
 	public static void insertValues(int rollNo, String studentName, int atttendence, int studentRank, int total,String standard,
-			String studentClass, String mentorName, String teacherusername, String password) throws SQLException {
+			String studentClass, String mentorName, String teacherusername) throws SQLException {
 		Connection connection = Connectionutil.getConnections();
-		String query = "insert into Student values(?,?,?,?,?,?,?,?,?,?)";
+		String query = "insert into Student values(?,?,?,?,?,?,?,?,?)";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, rollNo);
 		statement.setString(2, studentName);
@@ -69,7 +69,6 @@ public class StudentDb implements StudentInterface{
 		statement.setString(7, studentClass);
 		statement.setString(8, mentorName);
 		statement.setString(9,teacherusername);
-		statement.setString(10,password);
 		statement.execute();
 		connection.close();
 	}
@@ -196,11 +195,6 @@ public class StudentDb implements StudentInterface{
 		delete(validateRollNo,section);
 	}
 	public void addStudent(String section) throws SQLException {
-		
-		String a="Sachinnathan";
-		String b="Suji";
-		String c="Vinitha";
-		String d="Suresh";
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Enter Student RollNo");
 		String rollNo=sc.next();
@@ -220,33 +214,24 @@ public class StudentDb implements StudentInterface{
 		System.out.println("Enter the Student standard");
 		String standard=sc.next();
 		String validateStandard = StudentValidation.validateStandard(standard);
-		System.out.println("Enter your Class");
-		String StudentClass=sc.next();
-		String validateClass = StudentValidation.validateCharacter(StudentClass);
-		String validateMentor="";
-		if(validateClass.equals("A"))
-			validateMentor=a;
-		else if(validateClass.equals("B"))
-			validateMentor=b;
-		else if(validateClass.equals("C"))
-			validateMentor=c;
-		else if(validateClass.equals("D"))
-			validateMentor=d;
+		System.out.println("Enter Mentor Name");
+		String mentor=sc.next();
+		String validateMentor = StudentValidation.validateName(mentor);
+		
 		Connection con = Connectionutil.getConnections();
-		String query="select distinct teacherusername,password from student where studentclass=?";
+		String query="select user_name from admin_users where section=?";
 		PreparedStatement statement = con.prepareStatement(query);
-		statement.setString(1, validateClass);
+		statement.setString(1, section);
 		ResultSet rs = statement.executeQuery();
 		while(rs.next()) {
-			String studentClass=rs.getNString("teacherusername");
-			String password=rs.getNString("password");
-			insertValues(validateRollNo, validateName, validateAttendence, validateRank, validateTotal, validateStandard, StudentClass, validateMentor,studentClass,password);
+			String UserName=rs.getNString("user_name");
+			insertValues(validateRollNo, validateName, validateAttendence, validateRank, validateTotal, validateStandard, section, validateMentor,UserName);
 		}
 		System.out.println("Values are Inserted");
 		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
 		System.out.printf("%9s %15s %15s %15s %15s %15s %15s %19s\n", "RollNo", "Student Name", "Attendence","Student Rank","Total","Standard","Student Class","Mentor Name");
 		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%8s %12s %15s %14s %19s %14s %14s %19s\n",validateRollNo, validateName, validateAttendence, validateRank, validateTotal, validateStandard, StudentClass, validateMentor);
+		System.out.printf("%8s %12s %15s %14s %19s %14s %14s %19s\n",validateRollNo, validateName, validateAttendence, validateRank, validateTotal, validateStandard, section, validateMentor);
 		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
 		
 	}
@@ -254,11 +239,11 @@ public class StudentDb implements StudentInterface{
 	public static void showStudentDetails(String section) throws SQLException {
 		show(section);
 	}
-	public boolean loginCheck(String username,String password) throws SQLException {
+	public boolean loginCheck(String userNname,String password) throws SQLException {
 		Connection con = Connectionutil.getConnections();
-		String query="select teacherusername,password from student where teacherusername=? && password=?";
+		String query="select user_name,password from admin_users where user_name=? && password=?";
 		PreparedStatement statement = con.prepareStatement(query);
-		statement.setString(1,username);
+		statement.setString(1,userNname);
 		statement.setString(2,password);
 		ResultSet rs = statement.executeQuery();
 		while(rs.next()) {
@@ -271,7 +256,7 @@ public class StudentDb implements StudentInterface{
 	
 	public static void insertTeacherDetails(Teacher teacher) throws SQLException{
 		Connection con = Connectionutil.getConnections();
-		String query="update student set teacherusername=?,password=? where studentClass=?";
+		String query="insert into admin_users values(?,?,?)";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1,teacher.teacherName);
 		statement.setString(2,teacher.password);
@@ -281,18 +266,16 @@ public class StudentDb implements StudentInterface{
 	}
 	public static String findClass(String teacherName) throws SQLException {
 		Connection con = Connectionutil.getConnections();
-		String query="select distinct studentClass from student where teacherusername=?";
+		String query="select section from admin_users where user_name=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setString(1, teacherName);
 		ResultSet rs = statement.executeQuery();
 		while(rs.next()) {
-			String studentClass=rs.getNString("studentClass");
+			String studentClass=rs.getNString("section");
 			return studentClass ;
 		}
 		return null;
 	}
-
-	
 
 	
 }

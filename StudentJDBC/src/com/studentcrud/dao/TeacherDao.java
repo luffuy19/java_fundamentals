@@ -10,16 +10,17 @@ public class TeacherDao {
 	public static void register() throws SQLException {
 		Scanner sc = new Scanner(System.in);
 		String section=null;
-		System.out.println("Welcome to Student Application");
-		System.out.println("------------------------------");
-		System.out.println();
-		System.out.println("1) Login \n2) Signin ");
 		int n=0;
 		boolean b=true;
 		while(b) {
-			String num1 = sc.next();
-			n= StudentValidation.validateNumber(num1);
-			switch(n) {
+		System.out.println("Welcome to Student Application");
+		System.out.println("------------------------------");
+		System.out.println();
+		System.out.println("1) Login \n2) SignUp \n3) Exit");
+		System.out.println("\nEnter the Choice");
+		String num1 = sc.next();
+		n= StudentValidation.validateNumber(num1);
+		switch(n) {
 			case 1 : System.out.print("Enter Teacher User Creditinal : ");
 					 String username = sc.next();
 					 String validateName = StudentValidation.validateName(username);
@@ -34,8 +35,8 @@ public class TeacherDao {
 						 StudentDao.logic(loginCheck, section);
 					 }
 					 else {
-						 System.out.println();
-						 System.out.println("Inavlid user details");
+						 System.out.println("\nInavlid user details\n");
+						 register();
 					 }
 					 b=false;
 					 break;
@@ -54,7 +55,10 @@ public class TeacherDao {
 					 teacher.setPassword(validatepassword);
 					 teacher.setSection(section);
 					 StudentDb.insertTeacherDetails(teacher);
-					 
+					 break;
+
+			case 3 : b=false;
+					 break;		 
 			}
 		}
 	}

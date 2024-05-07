@@ -20,6 +20,7 @@ public class StudentDao {
 					+ "10) Show Student Detail" + "\n" + "11) Exit");
 			System.out.println();
 			while (n == 1) {
+				System.out.println("Enter the Choice");
 				String num1 = sc.next();
 				num = StudentValidation.validateNumber(num1);
 				switch (num) {

@@ -35,7 +35,7 @@ public class StudentValidation {
 		return validateNumber(attendence);
 	}	
 	public static String validateCharacter(String studentClass) {
-		if(studentClass.matches("^[A-Z]{1}$")) {
+		if(studentClass.matches("^[A-D]{1}$")) {
 			return studentClass;
 		}
 		System.out.println(redColor+"Enter Value in character "+studentClass+" is not a character"+resetColor);
@@ -51,7 +51,7 @@ public class StudentValidation {
 		return validateStandard(standard);
 	}
 	public static String validatepassword(String password) {
-		if(password.matches("^[A-Z][a-z]+[0-9]+[*#$%&!]$")) {
+		if(password.matches("^[A-Z]{1,}[a-zA-Z]+[0-9]+[!@#$%^&*~]$")) {
 			return password;
 		}
 		System.out.println(redColor+"Enter the Password Starting with caps also contains lowercase and Number Ends with Special Character"+resetColor);
