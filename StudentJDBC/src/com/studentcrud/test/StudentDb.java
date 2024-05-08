@@ -55,20 +55,22 @@ public class StudentDb implements StudentInterface{
 			System.out.println("You can not make changes in "+section+"Section");
 		}
 	}
-	public static void insertValues(int rollNo, String studentName, int atttendence, int studentRank, int total,String standard,
-			String studentClass, String mentorName, String teacherusername) throws SQLException {
+	public static void insertValues(int rollNo, String studentName, int atttendence, int studentRank, int quaterYearly,String standard,
+		String studentClass, String mentorName, String teacherusername,int halfYearly,int annualExam) throws SQLException {
 		Connection connection = Connectionutil.getConnections();
-		String query = "insert into Student values(?,?,?,?,?,?,?,?,?)";
+		String query = "insert into Student values(?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, rollNo);
 		statement.setString(2, studentName);
 		statement.setInt(3, atttendence);
 		statement.setInt(4, studentRank);
-		statement.setInt(5, total);
+		statement.setInt(5, quaterYearly);
 		statement.setString(6, standard);
 		statement.setString(7, studentClass);
 		statement.setString(8, mentorName);
 		statement.setString(9,teacherusername);
+		statement.setInt(10,halfYearly);
+		statement.setInt(11, annualExam);
 		statement.execute();
 		connection.close();
 	}
@@ -156,11 +158,62 @@ public class StudentDb implements StudentInterface{
 		}
 		con.close();
 	}
-	public static void updateStudentTotal(String rollNo,String total,String section) throws SQLException {
+	public static void updateStudentQuartely(String rollNo,String total,String section) throws SQLException {
 		int validateRollNo = StudentValidation.validateRollNo(rollNo);
 		int validateTotal = StudentValidation.validateNumber(total);
 		Connection con = Connectionutil.getConnections();
 		String query="update student set total=? where rollNo=? && studentClass=?";
+		PreparedStatement statement = con.prepareStatement(query);
+		statement.setInt(1, validateTotal);
+		statement.setInt(2, validateRollNo);
+		statement.setString(3,section);
+		int execute = statement.executeUpdate();
+		if (execute==1) {
+			System.out.println("Student Total was updated");
+		} else {
+			System.out.println("You can not make changes in "+section+" Section");
+		}
+		con.close();
+	}
+	public static void updateStudenthalfYearly(String rollNo,String total,String section) throws SQLException {
+		int validateRollNo = StudentValidation.validateRollNo(rollNo);
+		int validateTotal = StudentValidation.validateNumber(total);
+		Connection con = Connectionutil.getConnections();
+		String query="update student set half_yearly=? where rollNo=? && studentClass=?";
+		PreparedStatement statement = con.prepareStatement(query);
+		statement.setInt(1, validateTotal);
+		statement.setInt(2, validateRollNo);
+		statement.setString(3,section);
+		int execute = statement.executeUpdate();
+		if (execute==1) {
+			System.out.println("Student Total was updated");
+		} else {
+			System.out.println("You can not make changes in "+section+" Section");
+		}
+		con.close();
+	}
+	public static void updateStudentAnnualExam(String rollNo,String total,String section) throws SQLException {
+		int validateRollNo = StudentValidation.validateRollNo(rollNo);
+		int validateTotal = StudentValidation.validateNumber(total);
+		Connection con = Connectionutil.getConnections();
+		String query="update student set Annual_yearly=? where rollNo=? && studentClass=?";
+		PreparedStatement statement = con.prepareStatement(query);
+		statement.setInt(1, validateTotal);
+		statement.setInt(2, validateRollNo);
+		statement.setString(3,section);
+		int execute = statement.executeUpdate();
+		if (execute==1) {
+			System.out.println("Student Total was updated");
+		} else {
+			System.out.println("You can not make changes in "+section+" Section");
+		}
+		con.close();
+	}
+	public static void updateStudent(String rollNo,String total,String section) throws SQLException {
+		int validateRollNo = StudentValidation.validateRollNo(rollNo);
+		int validateTotal = StudentValidation.validateNumber(total);
+		Connection con = Connectionutil.getConnections();
+		String query="update student set half_yearly=? where rollNo=? && studentClass=?";
 		PreparedStatement statement = con.prepareStatement(query);
 		statement.setInt(1, validateTotal);
 		statement.setInt(2, validateRollNo);
@@ -208,16 +261,21 @@ public class StudentDb implements StudentInterface{
 		System.out.println("Enter your Rank");
 		String rank=sc.next();
 		int validateRank = StudentValidation.validateNumber(rank);
-		System.out.println("Enter your Total");
-		String total=sc.next();
-		int validateTotal = StudentValidation.validateNumber(total);
+//		System.out.println("Enter Student Quater yearly Mark");
+//		String total1=sc.next();
+//		int quaterYearly = StudentValidation.validateNumber(total1);
 		System.out.println("Enter the Student standard");
 		String standard=sc.next();
 		String validateStandard = StudentValidation.validateStandard(standard);
 		System.out.println("Enter Mentor Name");
 		String mentor=sc.next();
 		String validateMentor = StudentValidation.validateName(mentor);
-		
+		System.out.println("Enter Student Half Yearly Mark");
+//		String total2=sc.next();
+//		int halfYearly = StudentValidation.validateNumber(total2);
+//		System.out.println("Enter Student Annual Mark");
+//		String total3=sc.next();
+//		int annualExam = StudentValidation.validateNumber(total3);
 		Connection con = Connectionutil.getConnections();
 		String query="select user_name from admin_users where section=?";
 		PreparedStatement statement = con.prepareStatement(query);
@@ -225,14 +283,14 @@ public class StudentDb implements StudentInterface{
 		ResultSet rs = statement.executeQuery();
 		while(rs.next()) {
 			String UserName=rs.getNString("user_name");
-			insertValues(validateRollNo, validateName, validateAttendence, validateRank, validateTotal, validateStandard, section, validateMentor,UserName);
+			insertValues(validateRollNo, validateName, validateAttendence, validateRank,0, validateStandard, section, validateMentor,UserName,0,0);
 		}
 		System.out.println("Values are Inserted");
-		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%9s %15s %15s %15s %15s %15s %15s %19s\n", "RollNo", "Student Name", "Attendence","Student Rank","Total","Standard","Student Class","Mentor Name");
-		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%8s %12s %15s %14s %19s %14s %14s %19s\n",validateRollNo, validateName, validateAttendence, validateRank, validateTotal, validateStandard, section, validateMentor);
-		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
+//		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
+//		System.out.printf("%9s %15s %15s %15s %15s %15s %15 %15s %15s %19s\n", "RollNo", "Student Name", "Attendence","Student Rank","Total","Standard","Student Class","Mentor Name");
+//		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
+//		System.out.printf("%8s %12s %15s %14s %19s %19s %19s %14s %14s %19s\n",validateRollNo, validateName, validateAttendence, validateRank, 0,0, validateStandard, section, validateMentor);
+//		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------");
 		
 	}
 	

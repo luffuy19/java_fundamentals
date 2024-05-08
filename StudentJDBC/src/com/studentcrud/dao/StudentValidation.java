@@ -1,5 +1,6 @@
 package com.studentcrud.dao;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -57,5 +58,18 @@ public class StudentValidation {
 		System.out.println(redColor+"Enter the Password Starting with caps also contains lowercase and Number Ends with Special Character"+resetColor);
 		password=sc.next();
 		return validatepassword(password);
+	}
+	public static int checkNumber() {
+		int n=0;
+		while(sc.hasNext()) {
+			try {
+				n=sc.nextInt();
+				break;
+			}
+			catch(InputMismatchException e) {
+				System.out.println(redColor+"This is not a Number"+resetColor);
+				sc.nextLine();
+			}	}
+		return n;
 	}
 }

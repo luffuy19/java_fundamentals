@@ -18,8 +18,7 @@ public class TeacherDao {
 		System.out.println();
 		System.out.println("1) Login \n2) SignUp \n3) Exit");
 		System.out.println("\nEnter the Choice");
-		String num1 = sc.next();
-		n= StudentValidation.validateNumber(num1);
+		n=StudentValidation.checkNumber();
 		switch(n) {
 			case 1 : System.out.print("Enter Teacher User Creditinal : ");
 					 String username = sc.next();
@@ -58,7 +57,8 @@ public class TeacherDao {
 					 break;
 
 			case 3 : b=false;
-					 break;		 
+					 break;		
+			default : System.out.println("wrong Choice Enter (1 or 2)");		 
 			}
 		}
 	}
