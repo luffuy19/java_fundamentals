@@ -4,5 +4,5 @@ import java.sql.SQLException;
 
 public interface StudentInterface {
 	public boolean loginCheck(String username,String password) throws SQLException ;
-	public void addStudent(String section) throws SQLException ;
+	public void addStudent(String section,String teacherName) throws SQLException ;
 }

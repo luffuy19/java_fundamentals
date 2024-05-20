@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.studentcrud.test.StudentDb;
 
 public class StudentDao {
-	public static void logic(boolean b,String section) throws SQLException {
+	public static void logic(boolean b,String section, String teacherName) throws SQLException {
 		int n = 1;
 		int num = 0;
 		Scanner sc=new Scanner(System.in);
@@ -15,9 +15,9 @@ public class StudentDao {
 			System.out.println();
 			System.out.println("Enter the Option" + "\n" + "\n" + "1 ) Update Name" + "\n" + "2 ) Update Attendence"
 					+ "\n" + "3 ) Update Student Rank" + "\n" + "4 ) Update Student Class" + "\n"
-					+ "5 ) Update Student Mentor" + "\n" + "6 ) Enter student Quaterly Total" +"\n"+ "7 ) Enter student Half yearly Total" +"\n"+"8 ) Enter Student Annual Total" + "\n"
-					+ "9 ) Update Student Standard" + "\n" + "10) Delete Student" + "\n" + "11) Add Student" + "\n"
-					+ "12) Show Student Detail" + "\n" + "13) Exit");
+					+ "5 ) Enter student Quaterly Total" +"\n"+ "6 ) Enter student Half yearly Total" +"\n"+"7 ) Enter Student Annual Total" + "\n"
+					+ "8 ) Update Student Standard" + "\n" + "9 ) Delete Student" + "\n" + "10) Add Student" + "\n"
+					+ "11) Show Student Detail" + "\n" + "12) Exit");
 			System.out.println();
 			while (n == 1) {
 				System.out.println("Enter the Choice");
@@ -52,52 +52,45 @@ public class StudentDao {
 					StudentDb.updateStudentClass(classRollNo, studentClass,section);
 					break;
 				case 5:
-					System.out.println("Enter the Student Mentor");
-					String mentor = sc.next();
-					System.out.println("Enter your RollNo");
-					String mentorRollNo = sc.next();
-					StudentDb.updateStudentMentor(mentorRollNo, mentor,section);
-					break;
-				case 6:
 					System.out.println("Enter your Quaterly Total");
 					String quaterlyTotal = sc.next();
 					System.out.println("Enter the RollNo");
 					String quaterlyRollNo = sc.next();
 					StudentDb.updateStudentQuartely(quaterlyRollNo, quaterlyTotal, section);
 					break;	
-				case 7:
+				case 6:
 					System.out.println("Enter Student Half yearly Total");
 					String halfYearlyTotal = sc.next();
 					System.out.println("Enter the RollNo");
 					String halfRollNo = sc.next();
-					StudentDb.updateStudentQuartely(halfRollNo, halfYearlyTotal, section);
+					StudentDb.updateStudenthalfYearly(halfRollNo, halfYearlyTotal, section);
 					break;
-				case 8:
+				case 7:
 					System.out.println("Enter your Total");
 					String annualtotal = sc.next();
 					System.out.println("Enter the RollNo");
 					String annualRollNo = sc.next();
-					StudentDb.updateStudentQuartely(annualRollNo, annualtotal, section);
+					StudentDb.updateStudentAnnualExam(annualRollNo, annualtotal, section);
 					break;
-				case 9:
+				case 8:
 					System.out.println("Enter the standard");
 					String standard = sc.next();
 					System.out.println("Enter the RollNo");
 					String standardRollNo = sc.next();
 					StudentDb.updateStandard(standardRollNo, standard,section);
-				case 10:
+				case 9:
 					System.out.println("Enter the RollNo");
 					String deleteRollNo = sc.next();
 					StudentDb.deleteStudent(deleteRollNo,section);
 					break;
-				case 11:
+				case 10:
 					StudentDb db = new StudentDb();
-					db.addStudent(section);
+					db.addStudent(section,teacherName);
 					break;
-				case 12:
+				case 11:
 					StudentDb.showStudentDetails(section);
 					break;
-				case 13:
+				case 12:
 					n = 3;
 					break;
 				default : System.out.println("Wrong Choice Enter (1 to 11)");

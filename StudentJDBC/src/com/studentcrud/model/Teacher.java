@@ -1,17 +1,27 @@
 package com.studentcrud.model;
 
 public class Teacher {
+	public String name;
 	public String teacherName;
 	public String password;
 	public String section;
-	public Teacher(String teacherName, String password,String section) {
+	
+	
+	public Teacher(String name, String teacherName, String password, String section) {
 		super();
+		this.name = name;
 		this.teacherName = teacherName;
 		this.password = password;
 		this.section = section;
 	}
 	public Teacher() {
-		super();
+		// TODO Auto-generated constructor stub
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getTeacherName() {
 		return teacherName;
@@ -31,10 +41,7 @@ public class Teacher {
 	public void setSection(String section) {
 		this.section = section;
 	}
-	@Override
-	public String toString() {
-		return "Teacher [teacherName=" + teacherName + ", password=" + password + ", section=" + section + "]";
-	}
+	
 	
 	
 }

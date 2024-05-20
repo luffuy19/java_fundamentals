@@ -21,17 +21,18 @@ public class TeacherDao {
 		n=StudentValidation.checkNumber();
 		switch(n) {
 			case 1 : System.out.print("Enter Teacher User Creditinal : ");
-					 String username = sc.next();
-					 String validateName = StudentValidation.validateName(username);
+					 String userName = sc.next();
+					 userName = StudentValidation.validateName(userName);
 					 System.out.println();
 					 System.out.print("Enter Password : ");
 					 String password = sc.next();
 					 String validatepassword = StudentValidation.validatepassword(password);
 					 StudentDb db = new StudentDb();
-					 boolean loginCheck = db.loginCheck(validateName, validatepassword);
+					 boolean loginCheck = db.loginCheck(userName, validatepassword);
 					 if(loginCheck==true) {
-						 section= StudentDb.findClass(validateName);
-						 StudentDao.logic(loginCheck, section);
+						 section= StudentDb.findClass(userName);
+						 String teacherName = StudentDb.findTeacherName(userName);
+						 StudentDao.logic(loginCheck,section,teacherName);
 					 }
 					 else {
 						 System.out.println("\nInavlid user details\n");
@@ -41,17 +42,21 @@ public class TeacherDao {
 					 break;
 					 
 			case 2 : System.out.println("Enter your Name as per your AddarCard");
-			         username=sc.next();
-			         validateName = StudentValidation.validateName(username);
+			         String name=sc.next();
+			         name = StudentValidation.validateName(name);
+			         System.out.println("Enter the userName");
+			         userName=sc.next();
+			         userName = StudentValidation.validateName(userName);
 			         System.out.println("Enter your Password");
 			         password = sc.next();
-					 validatepassword = StudentValidation.validatepassword(password);
+					 password = StudentValidation.validatepassword(password);
 					 System.out.println("Enter the section");
 					 section=sc.next();
 					 section = StudentValidation.validateCharacter(section);
 					 Teacher teacher = new Teacher();
-					 teacher.setTeacherName(validateName);
-					 teacher.setPassword(validatepassword);
+					 teacher.setName(name);
+					 teacher.setTeacherName(userName);
+					 teacher.setPassword(password);
 					 teacher.setSection(section);
 					 StudentDb.insertTeacherDetails(teacher);
 					 break;
